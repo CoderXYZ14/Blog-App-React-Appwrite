@@ -8,6 +8,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
 
+  //kind of middleware for checking user login status
   useEffect(() => {
     authService
       .getCurrentUser()
