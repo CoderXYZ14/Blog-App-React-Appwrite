@@ -4,19 +4,22 @@ import { Container, PostCard } from "../components";
 
 function AllPost() {
   const [posts, setPosts] = useState([]);
+
   useEffect(() => {
-    appwriteService.getPosts([]).then((posts) => {
-      if (posts) {
-        setPosts(posts.documents);
+    // Fetch posts from appwriteService on component mount
+    appwriteService.getPosts([]).then((response) => {
+      if (response && response.documents) {
+        setPosts(response.documents);
       }
     });
   }, []);
+
   return (
-    <div className="w-full py-8">
+    <div className="py-8 bg-gray-100">
       <Container>
-        <div className="flex flex-wrap">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {posts.map((post) => (
-            <div key={post.$id} className="p-2 w-1/4">
+            <div key={post.$id}>
               <PostCard {...post} />
             </div>
           ))}
