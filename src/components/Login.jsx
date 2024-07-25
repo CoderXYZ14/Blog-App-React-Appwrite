@@ -1,15 +1,14 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { login as authLogin } from "../store/authSlice";
-import Button from "./Button";
-import Input from "./Input";
-import Logo from "./Logo";
+import { Button, Input, Logo } from "./index";
+import { useDispatch } from "react-redux";
 import authService from "../appwrite/auth";
 import { useForm } from "react-hook-form";
+
 function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const { register, handleSubmit } = useForm();
   const [error, setError] = useState("");
 
@@ -19,16 +18,14 @@ function Login() {
       const session = await authService.login(data);
       if (session) {
         const userData = await authService.getCurrentUser();
-        if (userData) {
-          dispatch(authLogin(userData));
-          navigate("/");
-        }
+        if (userData) dispatch(authLogin(userData));
+        navigate("/");
       }
-    } catch (err) {
-      setError(err.message);
-      return;
+    } catch (error) {
+      setError(error.message);
     }
   };
+
   return (
     <div className="flex items-center justify-center w-full">
       <div
@@ -53,18 +50,15 @@ function Login() {
         </p>
         {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
         <form onSubmit={handleSubmit(login)} className="mt-8">
-          {/* part of react hook form */}
           <div className="space-y-5">
             <Input
               label="Email: "
               placeholder="Enter your email"
               type="email"
-              //   syntax of react form hook
               {...register("email", {
                 required: true,
                 validate: {
                   matchPatern: (value) =>
-                    // regex write from email regex .com or chatgpt
                     /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||
                     "Email address must be a valid address",
                 },

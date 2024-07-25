@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-//page to check is user logged in or not
 const initialState = {
   status: false,
   userData: null,
@@ -22,4 +21,5 @@ const authSlice = createSlice({
 });
 
 export const { login, logout } = authSlice.actions;
+
 export default authSlice.reducer;

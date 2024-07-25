@@ -1,9 +1,9 @@
 import React from "react";
-import { Container, Logo } from "../index";
-import LogoutBtn from "./LogoutBtn";
+import { Container, Logo, LogoutBtn } from "../index";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+
 function Header() {
   const authStatus = useSelector((state) => state.auth.status);
   //similar to dispatch
@@ -38,16 +38,17 @@ function Header() {
       active: authStatus,
     },
   ];
+
   return (
     <header className="py-3 shadow bg-gray-500">
       <Container>
-        <nav>
-          <div class="mr-4">
+        <nav className="flex">
+          <div className="mr-4">
             <Link to="/">
               <Logo width="70px" />
             </Link>
           </div>
-          <ul className="flex ml-auto ">
+          <ul className="flex ml-auto">
             {navItems.map((item) =>
               item.active ? (
                 <li key={item.name}>
@@ -60,7 +61,6 @@ function Header() {
                 </li>
               ) : null
             )}
-            {/* if authenticated then logout */}
             {authStatus && (
               <li>
                 <LogoutBtn />
